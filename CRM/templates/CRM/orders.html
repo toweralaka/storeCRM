@@ -1,0 +1,15 @@
+
+<h1>address</h1>
+{% for i in address %}
+<p>Customer: {{ i.customer }}</p>
+<p>Order Number: {{ i.order }}</p>
+<p>Product: {{ i.orderItem.product }}</p>
+
+<p>address: {{ i.address }}</p>
+<p>city: {{ i.city }}</p>
+<p>state: {{ i.state }}</p>
+<p>zip: {{ i.zipcode }}</p>
+<hr>
+{% endfor %}
+
+
