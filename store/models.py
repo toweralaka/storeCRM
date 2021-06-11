@@ -85,7 +85,7 @@ class Order(models.Model):
 	transaction_id = models.CharField(max_length=100, null=True)
 
 	def __str__(self):
-		return str(self.id)
+		return str(self.transaction_id)
 		
 	@property
 	def shipping(self):
@@ -114,6 +114,8 @@ class OrderItem(models.Model):
 	quantity = models.IntegerField(default=0, null=True, blank=True)
 	date_added = models.DateTimeField(auto_now_add=True)
 
+	
+
 	@property
 	def get_total(self):
 		total = self.product.price * self.quantity
@@ -122,7 +124,11 @@ class OrderItem(models.Model):
 class ShippingAddress(models.Model):
 	customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
 	order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
+	##addition
+	#use foreignkey to save an item per delivery
 	orderItem = models.ForeignKey(OrderItem, on_delete=models.SET_NULL, null=True)
+	#use manytomany to save multiple items per delivery
+	# orderItem = models.ManyToManyField(OrderItem)
 	address = models.CharField(max_length=200, null=False)
 	city = models.CharField(max_length=200, null=False)
 	state = models.CharField(max_length=200, null=False)

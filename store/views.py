@@ -68,7 +68,6 @@ def checkout(request):
 	cartItems = data['cartItems']
 	order = data['order']
 	items = data['items']
-
 	context = {'items':items, 'order':order, 'cartItems':cartItems}
 	return render(request, 'store/checkout.html', context)
 
@@ -113,15 +112,31 @@ def processOrder(request):
 	if total == order.get_cart_total:
 		order.complete = True
 	order.save()
+	allorderitems = order.orderitem_set.all()##addition
 
 	if order.shipping == True:
+		##addition
+		#use for foreignkey with orderitem
 		ShippingAddress.objects.create(
 		customer=customer,
 		order=order,
+		orderItem=allorderitems[0],
 		address=data['shipping']['address'],
 		city=data['shipping']['city'],
 		state=data['shipping']['state'],
 		zipcode=data['shipping']['zipcode'],
 		)
+		#use for manytomanyfield with orderitem
+		# new_shipping = ShippingAddress.objects.create(
+		# customer=customer,
+		# order=order,
+		# address=data['shipping']['address'],
+		# city=data['shipping']['city'],
+		# state=data['shipping']['state'],
+		# zipcode=data['shipping']['zipcode'],
+		# )
+		# for item in allorderitems:
+		# 	new_shipping.orderItem.add(item)
+		# new_shipping.save()
 
 	return JsonResponse('Payment submitted..', safe=False)

@@ -3,8 +3,10 @@
 {% for i in address %}
 <p>Customer: {{ i.customer }}</p>
 <p>Order Number: {{ i.order }}</p>
+{# for foreignkey #}
 <p>Product: {{ i.orderItem.product }}</p>
-
+{# for manytomanyfield #}
+<p>Products: {% for item in i.orderItem.all %}{{ item.product }}<br/>{% endfor %}</p>
 <p>address: {{ i.address }}</p>
 <p>city: {{ i.city }}</p>
 <p>state: {{ i.state }}</p>
